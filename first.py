@@ -1,8 +1,10 @@
 import math
-PI = math.pi #PI exact
-L = 100 #Total time = 100seconds
-dT = 1   #Time Interval = 1second
+import matplotlib.pyplot as plt
 
+PI = math.pi #PI exact
+# L = 100 #Total time = 100seconds
+dT = 0.1   #Time Interval = 1second
+L = int(100/dT)
 thetaRef = [0]*L
 thetaFeedback = [0]*L
 error = [0]*L
@@ -17,12 +19,12 @@ intgt2 = [0]*L
 
 
 def diff(a, k):
-    return(a[k] - a[k-dT])/dT
+    return(a[k] - a[k-1])/dT
 
 
-Kp = 0.1 * 180/PI
+Kp = 0.115 * 180/PI
 Kd = 0.4 * 180/PI
-error[0]= 50
+error[0]= 0 #50 * PI/180
 Km = 12.25
 Tm = 0.128
 Uon = 1.0
@@ -30,12 +32,12 @@ Uoff = -0.15
 Um = 1.0
 J = 18000
 PlantK = 300/J
-for i in range(5,100):
-    thetaRef[i] = 50
+for i in range(5,L):
+    thetaRef[i] = 50 * PI/180
 
 
 for k in range (1, L):
-    error[k] = thetaRef[k] - thetaFeedback[k]
+    error[k] = thetaRef[k] - thetaFeedback[k-1]
     Tc[k] = Kp * error[k] + Kd * diff(error, k)
     R[k] = Tc[k] - Vo[k]
     #Transfer Fn 1
@@ -64,6 +66,19 @@ for k in range (1, L):
     PlantOut[k] = PlantIn[k]*PlantK
     intgt1[k] = intgt1[k-1] + dT*PlantOut[k]
     intgt2[k] = intgt2[k-1] + dT*intgt1[k]
+    thetaFeedback[k] = intgt2[k]
     #End Plant
-    radianOut = intgt2
-    print(radianOut[k])
+
+    print(intgt2[k]*180/PI)
+
+degreeOut = [0]*L
+thetaDeg = [0]*L
+for i in range(0,L):
+    degreeOut[i] = intgt2[i]*180/PI
+    thetaDeg[i] = thetaRef[i]*180/PI
+plt.plot([i for i in range(1,L)], degreeOut[1:])
+plt.plot([i for i in range(1,L)], thetaDeg[1:])
+plt.xlabel("Time (s)")
+plt.ylabel("Output")
+
+plt.show()
