@@ -21,16 +21,15 @@ intgt2 = [0]*L
 def diff(a, k):
     return(a[k] - a[k-1])/dT
 
-
 Kp = 0.115 * 180/PI
 Kd = 0.4 * 180/PI
-error[0]= 0 #50 * PI/180
+error[0]= 0 # 50 * PI/180
 Km = 12.25
 Tm = 0.128
 Uon = 1.0
 Uoff = -0.15
 Um = 1.0
-J = 18000
+J = 18000 # 10k-30k
 PlantK = 300/J
 for i in range(5,L):
     thetaRef[i] = 50 * PI/180
@@ -78,7 +77,7 @@ for i in range(0,L):
     thetaDeg[i] = thetaRef[i]*180/PI
 plt.plot([i for i in range(1,L)], degreeOut[1:])
 plt.plot([i for i in range(1,L)], thetaDeg[1:])
-plt.xlabel("Time (s)")
+plt.xlabel("Time (sampling)")
 plt.ylabel("Output")
 
 plt.show()
