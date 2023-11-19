@@ -3,8 +3,14 @@ import matplotlib.pyplot as plt
 
 PI = math.pi #PI exact
 # L = 100 #Total time = 100seconds
-dT = 0.1   #Time Interval = 1second
-L = int(100/dT)
+dT = 0.001   #Time Interval = 0.1second
+totalTime = 100 #in seconds
+stepInputStartTime = 1 # in seconds. 
+stepInputSignalDegrees = 50 # in degrees, the input step.
+errorPercent = 2
+
+
+L = int(totalTime/dT)
 thetaRef = [0]*L
 thetaFeedback = [0]*L
 error = [0]*L
@@ -21,18 +27,20 @@ intgt2 = [0]*L
 def diff(a, k):
     return(a[k] - a[k-1])/dT
 
-Kp = 0.115 * 180/PI
-Kd = 0.4 * 180/PI
+Kp = 0.103 * 180/PI
+Kd = 0.40 * 180/PI
 error[0]= 0 # 50 * PI/180
 Km = 12.25
 Tm = 0.128
 Uon = 1.0
 Uoff = -0.15
 Um = 1.0
-J = 18000 # 10k-30k
+J = 22000 # 10k-30k
 PlantK = 300/J
-for i in range(5,L):
-    thetaRef[i] = 50 * PI/180
+
+stepInputStart = int(stepInputStartTime /dT)
+for i in range(stepInputStart,L):
+    thetaRef[i] = stepInputSignalDegrees * PI/180
 
 
 for k in range (1, L):
@@ -68,16 +76,36 @@ for k in range (1, L):
     thetaFeedback[k] = intgt2[k]
     #End Plant
 
-    print(intgt2[k]*180/PI)
+    #print(intgt2[k]*180/PI)
 
 degreeOut = [0]*L
 thetaDeg = [0]*L
+
+sTimeSample = 0
+sBand = errorPercent * 0.01 * stepInputSignalDegrees
+sBandNegative = stepInputSignalDegrees - sBand
+sBandPositive = stepInputSignalDegrees + sBand
+overshoot = 0
+
 for i in range(0,L):
     degreeOut[i] = intgt2[i]*180/PI
+    overshoot = max(overshoot, degreeOut[i])
+    
+    
     thetaDeg[i] = thetaRef[i]*180/PI
+    if sBandNegative< degreeOut[i] < sBandPositive:
+        continue
+    sTimeSample = i+1
+
+sT = (sTimeSample) * dT - stepInputStartTime
+
+
 plt.plot([i for i in range(1,L)], degreeOut[1:])
 plt.plot([i for i in range(1,L)], thetaDeg[1:])
+
 plt.xlabel("Time (sampling)")
 plt.ylabel("Output")
-
+plt.legend(['degreeOut', 'InputDeg', 'd'], loc='upper right')
+plt.text(L*0.60,0,f"J = {J}\nKp = {Kp*PI/180}*180/PI\nKd = {Kd*PI/180}*180/PI\nOvershoot = {overshoot}\nSettling time = {sT}s")
 plt.show()
+
