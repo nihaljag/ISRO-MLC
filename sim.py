@@ -126,7 +126,7 @@ def main(Kp = 0.103, Kd = 0.40, J = 22000, showGraph = False):
         plt.legend(['degreeOut', 'InputDeg', 'd'], loc='upper right')
         plt.text(L*0.60,0,f"J = {J}\nKp = {Kp*PI/180}*180/PI\nKd = {Kd*PI/180}*180/PI\nOvershoot = {overshoot}\nSettling time = {sT}s\nCross Count = {crossCount}\nUnsettled = {unsettled}\nRise Time = {riseTime}\nOvershoot Time = {overshootTime}")
         plt.show()
-    return [sT, unsettled, overshoot, overshootTime , crossCount, riseTime, J, KpDeg, KdDeg]
+    return [sT, unsettled, overshoot, overshootTime , crossCount, riseTime, KpDeg, KdDeg, J]
 
 
 if __name__=="__main__":
