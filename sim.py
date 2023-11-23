@@ -56,6 +56,7 @@ def main(Kp = 0.103, Kd = 0.40, J = 22000, showGraph = False):
     sBandNegative = stepInputSignalDegrees - sBand
     sBandPositive = stepInputSignalDegrees + sBand
     overshoot = 0
+    overshootTime = 0
     unsettled = 0
     riseTime = 0
     firstRise = True
@@ -131,8 +132,8 @@ def main(Kp = 0.103, Kd = 0.40, J = 22000, showGraph = False):
 
 if __name__=="__main__":
     start_time = time.time()
-    main(showGraph=False, J = 10000)
-    print("--- Executed in %s seconds ---" %(time.time() - start_time))
+    dat = main(Kp=0.09,Kd=0.38, J= 30000,showGraph=True)
+    print("%s--- Executed in %s seconds ---" %(dat[0],time.time() - start_time))
 
 # # Parameters
 # Kp
