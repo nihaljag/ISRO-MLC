@@ -1,7 +1,5 @@
 import sim, random
-from collections import defaultdict
 import json
-    
 def lookup(J):
     with open("lookup.json", 'r') as f:
         lookup = json.load(f)
@@ -10,8 +8,6 @@ def lookup(J):
     else:
         return [0.12,0.6]
     return random.choice(lookup[str(J)])
-
-
 if __name__=="__main__":
     J = 7000
     [Kp, Kd] = lookup(J)

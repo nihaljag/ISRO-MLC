@@ -1,11 +1,8 @@
 import math
 import matplotlib.pyplot as plt
 import time
-
-
 def main(Kp = 0.103, Kd = 0.40, J = 22000, showGraph = False):
     PI = math.pi #PI exact
-    # L = 100 #Total time = 100seconds
     dT = 0.1   #Time Interval = 0.1second
     totalTime = 100 #in seconds
     stepInputStartTime = 1 # in seconds. 
@@ -43,8 +40,6 @@ def main(Kp = 0.103, Kd = 0.40, J = 22000, showGraph = False):
     PlantK = 300/J
 
     stepInputStart = int(stepInputStartTime /dT)
-    # for i in range(stepInputStart,L):
-    #     thetaRef[i] = stepInputSignalDegrees * PI/180
     for i in range(stepInputStart):
         thetaRef[i] = 0
 

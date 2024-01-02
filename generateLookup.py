@@ -1,8 +1,6 @@
 import csv
-import sim, random
 from collections import defaultdict
 import json
-
 
 mlcData = open("mlcPerfectestReduced.csv", "r")
 # perfectDataEachJ = open("mlcPerfectestDataEachJ.csv", "w",  newline='')
@@ -17,6 +15,5 @@ for row in mlcdataIterator:
     lKd = float(row[2])
     lookup[lJ].append(tuple((lKp, lKd)))
 mlcData.close()
-# e.g. file = './data.json' 
 with open("lookup.json", 'w') as f: 
     json.dump(lookup, f)

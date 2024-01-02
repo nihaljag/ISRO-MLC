@@ -14,7 +14,7 @@ nRowsKd = 20
 nRowsKp = 50
 start_time = time.time()
 
-csvfile = open("mlcData100k.csv", "w",  newline='')
+csvfile = open("mlcData.csv", "w",  newline='')
 cw = csv.writer(csvfile)
 cw.writerow(['settlingTime', 'unsettled','overshoot','overshootTime', 'crossCount', 'riseTime', 'Kp', 'Kd', 'J'])
 
